@@ -8,7 +8,7 @@ from app.main import app
 from fastapi.testclient import TestClient
 
 # Test database URL
-TEST_DATABASE_URL = "postgresql://postgres:123456@localhost:5433/lu_estilo_test"
+TEST_DATABASE_URL = "postgresql://postgres:123456@db:5432/lu_estilo_test"
 
 # Override the DATABASE_URL environment variable for tests
 os.environ["DATABASE_URL"] = TEST_DATABASE_URL
