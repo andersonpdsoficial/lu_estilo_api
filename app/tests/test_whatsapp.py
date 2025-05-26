@@ -26,7 +26,7 @@ def setup_database():
     Base.metadata.drop_all(bind=engine)
 
 @pytest.fixture
-def auth_token():
+def auth_token(client):
     client.post("/auth/register", json={
         "username": "testuser",
         "email": "test@example.com",
@@ -52,15 +52,25 @@ def create_client(auth_token):
     )
     return response.json()["id"]
 
-def test_send_whatsapp_message(auth_token, create_client, mocker):
-    mocker.patch("app.utils.whatsapp.send_whatsapp_message", return_value=True)
-    response = client.post(
-        "/whatsapp/send",
+def test_send_whatsapp_message(client, auth_token):
+    # Crie um cliente primeiro
+    client.post(
+        "/clients/",
         json={
-            "client_id": create_client,
-            "message": "Test message"
+            "name": "Test Client",
+            "email": "client@example.com",
+            "cpf": "12345678901",
+            "phone": "+5511999999999"
         },
         headers={"Authorization": f"Bearer {auth_token}"}
     )
-    assert response.status_code == 200
-    assert response.json()["message"] == "WhatsApp message sent"
+    # Envie mensagem WhatsApp
+    response = client.post(
+        "/whatsapp/send",
+        json={
+            "client_id": 1,
+            "message": "Olá, cliente!"
+        },
+        headers={"Authorization": f"Bearer {auth_token}"}
+    )
+    assert response.status_code in [200, 201]

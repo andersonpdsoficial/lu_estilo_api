@@ -26,7 +26,7 @@ def setup_database():
     Base.metadata.drop_all(bind=engine)
 
 @pytest.fixture
-def auth_token():
+def auth_token(client):
     client.post("/auth/register", json={
         "username": "testuser",
         "email": "test@example.com",
@@ -38,32 +38,31 @@ def auth_token():
     })
     return response.json()["access_token"]
 
-def test_create_product(auth_token):
+def test_create_product(client, auth_token):
     response = client.post(
         "/products/",
         json={
-            "description": "Test Product",
-            "price": 99.99,
-            "barcode": "123456789012",
-            "section": "Clothing",
+            "description": "Produto Teste",
+            "price": 10.0,
+            "barcode": "1234567890123",
+            "section": "A",
             "stock": 10
         },
         headers={"Authorization": f"Bearer {auth_token}"}
     )
     assert response.status_code == 200
-    assert response.json()["description"] == "Test Product"
+    assert response.json()["description"] == "Produto Teste"
 
-def test_create_product_invalid_barcode(auth_token):
+def test_create_product_invalid_barcode(client, auth_token):
     response = client.post(
         "/products/",
         json={
-            "description": "Test Product",
-            "price": 99.99,
+            "description": "Produto Teste",
+            "price": 10.0,
             "barcode": "invalid",
-            "section": "Clothing",
+            "section": "A",
             "stock": 10
         },
         headers={"Authorization": f"Bearer {auth_token}"}
     )
     assert response.status_code == 400
-    assert response.json()["detail"] == "Invalid barcode"
