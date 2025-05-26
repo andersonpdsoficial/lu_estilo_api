@@ -10,7 +10,7 @@ from app.models.base import Base
 load_dotenv()
 
 def get_database():
-    DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://postgres:628629@db:5432/lu_estilo")
+    DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://postgres:123456@db:5432/lu_estilo")
     print(f"Loading DATABASE_URL: {DATABASE_URL}")  # Debug print
 
     # Validate ASCII characters
