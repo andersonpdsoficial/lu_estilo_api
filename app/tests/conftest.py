@@ -7,11 +7,26 @@ from app.database.database import get_db, get_database
 from app.main import app
 from fastapi.testclient import TestClient
 
-# Test database URL
-TEST_DATABASE_URL = "postgresql://postgres:123456@db:5432/lu_estilo_test"
+# Get database URL from environment variable or use a default test database
+DATABASE_URL = os.getenv(
+    "TEST_DATABASE_URL",
+    "postgresql://postgres:postgres@db:5432/lu_estilo_test"
+)
 
-# Override the DATABASE_URL environment variable for tests
-os.environ["DATABASE_URL"] = TEST_DATABASE_URL
+engine = create_engine(DATABASE_URL)
+TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
+def get_test_db():
+    db = TestingSessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+
+def setup_test_database():
+    Base.metadata.create_all(bind=engine)
+    yield
+    Base.metadata.drop_all(bind=engine)
 
 @pytest.fixture(scope="session")
 def test_engine():
