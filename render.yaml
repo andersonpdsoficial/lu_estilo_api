@@ -27,5 +27,5 @@ services:
 databases:
   - name: lu-estilo-db
     databaseName: lu_estilo
-    user: postgres
+    user: lu_estilo_user
     plan: free 
