@@ -26,7 +26,7 @@ def setup_database():
     Base.metadata.drop_all(bind=engine)
 
 @pytest.fixture
-def auth_token():
+def auth_token(client):
     client.post("/auth/register", json={
         "username": "testuser",
         "email": "test@example.com",
@@ -38,7 +38,7 @@ def auth_token():
     })
     return response.json()["access_token"]
 
-def test_create_client(auth_token):
+def test_create_client(client, auth_token):
     response = client.post(
         "/clients/",
         json={
@@ -52,7 +52,7 @@ def test_create_client(auth_token):
     assert response.status_code == 200
     assert response.json()["name"] == "Test Client"
 
-def test_create_client_invalid_cpf(auth_token):
+def test_create_client_invalid_cpf(client, auth_token):
     response = client.post(
         "/clients/",
         json={
@@ -66,7 +66,7 @@ def test_create_client_invalid_cpf(auth_token):
     assert response.status_code == 400
     assert response.json()["detail"] == "Invalid CPF"
 
-def test_list_clients(auth_token):
+def test_list_clients(client, auth_token):
     client.post(
         "/clients/",
         json={

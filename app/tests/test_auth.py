@@ -25,7 +25,7 @@ def setup_database():
     yield
     Base.metadata.drop_all(bind=engine)
 
-def test_register():
+def test_register(client):
     response = client.post("/auth/register", json={
         "username": "testuser",
         "email": "test@example.com",
@@ -35,7 +35,7 @@ def test_register():
     assert "access_token" in response.json()
     assert response.json()["token_type"] == "bearer"
 
-def test_register_existing_email():
+def test_register_existing_email(client):
     client.post("/auth/register", json={
         "username": "testuser",
         "email": "test@example.com",
@@ -49,7 +49,7 @@ def test_register_existing_email():
     assert response.status_code == 400
     assert response.json()["detail"] == "Email already registered"
 
-def test_login():
+def test_login(client):
     client.post("/auth/register", json={
         "username": "testuser",
         "email": "test@example.com",
@@ -62,7 +62,7 @@ def test_login():
     assert response.status_code == 200
     assert "access_token" in response.json()
 
-def test_login_invalid_credentials():
+def test_login_invalid_credentials(client):
     response = client.post("/auth/login", data={
         "username": "testuser",
         "password": "wrongpassword"
