@@ -10,16 +10,16 @@ from app.models.base import Base
 load_dotenv()
 
 def get_database():
-    DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://postgres:123456@db:5432/lu_estilo")
+    # Garantir que a URL do banco seja ASCII-safe
+    DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://postgres:123456@localhost:5433/lu_estilo")
+    if not DATABASE_URL:
+        raise ValueError("DATABASE_URL environment variable is not set")
+    
+    # Remover caracteres especiais e garantir que a string seja ASCII
+    DATABASE_URL = DATABASE_URL.encode('ascii', 'ignore').decode('ascii')
+    # Substituir caracteres problemáticos
+    DATABASE_URL = DATABASE_URL.replace('ç', 'c').replace('ã', 'a').replace('á', 'a')
     print(f"Loading DATABASE_URL: {DATABASE_URL}")  # Debug print
-
-    # Validate ASCII characters
-    try:
-        DATABASE_URL.encode('ascii')
-    except UnicodeEncodeError as e:
-        error_msg = f"Invalid DATABASE_URL: contains non-ASCII characters - {str(e)}"
-        sentry_sdk.capture_message(error_msg)
-        raise ValueError(error_msg)
 
     # Retry mechanism for database connection
     max_retries = 5
