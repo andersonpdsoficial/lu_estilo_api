@@ -151,8 +151,8 @@ lu_estilo_api/
 
 ## 📡 Endpoints Principais
 
-![Captura de tela 2025-05-26 104740](https://github.com/user-attachments/assets/54e1df6e-724b-4371-8690-cd5cd4f51553)
 ![Captura de tela 2025-05-26 104747](https://github.com/user-attachments/assets/b93f28e8-8389-4583-877b-e243c11d1df0)
+![Captura de tela 2025-05-26 104740](https://github.com/user-attachments/assets/54e1df6e-724b-4371-8690-cd5cd4f51553)
 ![Captura de tela 2025-05-26 104755](https://github.com/user-attachments/assets/600005ad-4191-4f3d-91c8-122bc896b737)
 ![Captura de tela 2025-05-26 104802](https://github.com/user-attachments/assets/7cdd5283-b43d-4603-a03e-aec02c24415e)
 
