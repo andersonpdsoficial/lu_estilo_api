@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String, DateTime
 from sqlalchemy.sql import func
-from app.database.database import Base
+from app.models.base import Base
 
 class Client(Base):
     __tablename__ = "clients"

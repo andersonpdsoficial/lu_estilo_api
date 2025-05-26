@@ -2,17 +2,21 @@ import os
 import pytest
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from app.database.database import Base
+from app.models.base import Base
+from app.database.database import get_db, get_database
 from app.main import app
 from fastapi.testclient import TestClient
 
 # Test database URL
 TEST_DATABASE_URL = "postgresql://postgres:123456@localhost:5433/lu_estilo_test"
 
+# Override the DATABASE_URL environment variable for tests
+os.environ["DATABASE_URL"] = TEST_DATABASE_URL
+
 @pytest.fixture(scope="session")
 def test_engine():
-    # Create test database engine
-    engine = create_engine(TEST_DATABASE_URL)
+    # Create test database engine using the factory function
+    engine, _ = get_database()
     
     # Create all tables
     Base.metadata.create_all(bind=engine)

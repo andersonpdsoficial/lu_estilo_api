@@ -1,7 +1,7 @@
 from sqlalchemy import Column, Integer, String, Enum, DateTime, ForeignKey
 from sqlalchemy.sql import func
 from sqlalchemy.orm import relationship
-from app.database.database import Base
+from app.models.base import Base
 import enum
 
 class MessageStatus(str, enum.Enum):

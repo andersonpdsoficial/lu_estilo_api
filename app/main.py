@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from sentry_sdk.integrations.asgi import SentryAsgiMiddleware
 import sentry_sdk
 from app.api import auth, clients, products, orders, whatsapp
-from app.database.database import engine, Base
+from app.models.base import Base
 from dotenv import load_dotenv
 import os
 
