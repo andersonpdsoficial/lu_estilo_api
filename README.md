@@ -202,6 +202,9 @@ python test_db.py
 Get-Content .env -Raw
 ```
 
+### Esta sendo criado  o Front-End da Lu Estilos Api em outro repositório
+1. git: https://github.com/andersonpdsoficial/front_End_Lu_Estilo
+
 ## 🤝 Contribuindo
 
 1. Faça um fork do projeto
